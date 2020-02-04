@@ -1,0 +1,15 @@
+<coches>
+	<Coche>	<Matricula>
+			4356REW
+		</Matricula><Marca>
+			Corsa	</Marca>
+		<Modelo>	Sport
+		</Modelo>
+	</Coche><Coche>	<Matricula>
+			435354YU
+		</Matricula>		<Marca>
+			Opel
+		</Marca>		<Modelo>
+			Verlina
+		</Modelo>	</Coche>
+</coches>

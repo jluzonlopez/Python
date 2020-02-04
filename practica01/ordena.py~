@@ -1,0 +1,68 @@
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+
+import types
+import sys
+import argparse
+
+def mi_ordena(x,y):
+	indice_x = 0
+	indice_y = 0
+	total_x = 0
+	total_y = 0
+	while indice_x < len(x):
+		if type(x[indice_x]) == types.IntType:
+			total_x = total_x + x[indice_x]
+			indice_x = indice_x + 1
+		else:
+			print "Error, elemento no permitido"
+			raise SystemExit
+	while indice_y  < len(y):
+		if type(y[indice_y]) == types.IntType:
+			total_y = total_y + y[indice_y]
+			indice_y = indice_y + 1
+		else:
+			print "Error, elemento no permitido"
+			raise SystemExit
+	if total_x < total_y:
+		return -1
+	elif total_x == total_y:
+		if len(x) > len(y):
+			return 1
+		else:
+			return -1
+	else: 
+		return 1
+
+usage = "%prog [opciones]"
+parser = argparse.ArgumentParser(description = "Short sample app")
+#parser.add_argument("-h", "--help",action ="store_true", dest = "help",help = "Mostrar un mensaje de ayuda")
+parser.add_argument("-i", "--input",action ="store", dest = "input",help = "Leer desde un fichero")
+parser.add_argument("-o", "--output",action ="store", dest = "output",help = "Escrbir a un fichero")
+
+args = parser.parse_args()
+
+
+#if args.help:
+#	"tu mensaje de ayuda"
+lista = []
+if args.input:
+	fichero = open(args.input,"r")
+	for linea in fichero:
+		valor = [int(linea[:-1])]
+		lista.append(valor)
+else:
+	for linea in sys.stdin:
+		valor = [int(linea[:-1])]
+		lista.append(valor)
+
+lista.sort(mi_ordena)
+if args.output:
+	fichero = open(args.output,"w")
+	for x in lista:
+		fichero.write(str(x)+"\n")
+	fichero.close()
+else:
+	sys.stdout.write(bytes(lista)+"\n")
+
+

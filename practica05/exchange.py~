@@ -1,0 +1,73 @@
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+import flask
+import sys
+import json
+import requests
+#import requests_cache
+
+#EXPIRE_TIME = 10
+#requests_cache.install_cache(cache_name='my_cache', backend='sqlite',expire_after=EXPIRE_TIME)
+
+app=flask.Flask(__name__)
+
+#http://api.fixer.io/latest?base=CNY (precio en yuanes chinos de las monedas)
+#https://data.btcchina.com/data/ticker?market=btccny (precio en BTC de los yuanes)
+
+def cambbtc(coin):
+	url = "https://data.btcchina.com/data/ticker?market=btccny"
+	my_timeout=5
+	r=requests.get(url,timeout=my_timeout)
+	if r.status_code==200:
+		prc = r.json()
+		buyprice = prc['ticker']
+		total = float(coin)*float(buyprice['buy'])
+		return json.dumps(total)
+
+
+def cambyuan(precoin,typeresult):
+	url = "http://api.fixer.io/latest?base=CNY"
+	my_timeout=5
+	r=requests.get(url,timeout=my_timeout)
+	if r.status_code==200:
+		resp = r.json()
+		rates = resp['rates']
+		total = float(precoin)*float(rates[typeresult])
+		return total
+
+#/exchange/XBTEUR (ejemplo de peticion)
+#/XBTEUR?amount=5.23 (cuantos euros hacen falta para comprar 5.23 bitcoin
+
+@app.route('/exchange/<coin>')
+def cambio(coin):
+	query_string = flask.request.args
+	if flask.request.args:
+		url = "https://data.btcchina.com/data/ticker?market=btccny"
+		my_timeout=5
+		r=requests.get(url,timeout=my_timeout)
+		if r.status_code==200:
+			prc = r.json()	
+			buyprice = prc['ticker']
+			result = float(query_string['amount'])*float(buyprice['buy'])
+			if coin == "CNY":
+				return json.dumps({"XBT"+coin:result,XBT:query_string['amount'],coin:buyprice['buy']})
+			else:		
+				return json.dumps({"XBT"+coin:cambyuan(result,coin),XBT:query_string['amount'],coin:buyprice['buy']})
+
+	else:
+		url = "http://api.fixer.io/latest?base=CNY"
+		my_timeout=5
+		r=requests.get(url,timeout=my_timeout)
+		if r.status_code==200:
+			resp = r.json()
+			if coin == "CNY":
+				return cambbtc(1)
+			else:
+				rates = resp['rates']
+				return cambbtc(rates[coin])
+			
+if __name__ == '__main__':
+	app.run(debug=True)
+
+
+ 

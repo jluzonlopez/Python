@@ -1,0 +1,46 @@
+#!/usr/bin/python -tt
+# -*- coding: utf-8 -*-
+
+import argparse
+import sys
+import os
+
+try:
+	from xmlpp import pprint
+except:
+	lista = os.listdir(".")
+	if not "xmlpp.py" in lista:
+		os.symlink("~/bin/xmlpp","xmlpp.py") 
+
+#pprint(xml,stdout,indent=4,width=80)
+#como primer parametro recibira el nombre del fichero a leer
+#si recibe un segundo parametro sera el nombre del fichero donde escribira la salida, si no recibe escribe por stdout
+
+usage = "%prog [opciones]"
+parser = argparse.ArgumentParser(description = "Short sample app")
+parser.add_argument("-m", "--modify",action ="store_true", dest = "modify",help = "Escibe la salida en un fichero auxiliar y sustituira el fichero original por el auxiliar y borrará el auxiliar")
+parser.add_argument('arg1')
+
+args = parser.parse_args()
+fichero_1 = open(args.arg1,"r")
+
+#if args.arg2:
+#	fichero_2 = open("seg_argument.xml","w")
+#	pprint(args.arg1,fichero2)
+#else:
+#	pprint(args.arg1)
+
+pprint(args.arg1)
+
+if args.modify:
+	aux = open("auxiliar.xml","w")
+	for line in fichero_1:
+		pprint(args.arg1,aux,4,80)
+	aux.close()
+	try:
+		os.remove(args.arg1)
+		os.rename("auxiliar.xml",args.arg1)
+	except:
+		sys.stderr.wrte("Error"+"\n")
+
+fichero_1.close()

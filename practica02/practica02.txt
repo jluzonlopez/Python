@@ -1,0 +1,49 @@
+Nombre : Jorge Luzón López, Login : jluzon
+
+jluzon@delta15 ~/ST/practica02 $ xmlpp coches.xml
+<?xml version="1.1" encoding="UTF-8"?>
+<coches>
+    <Coche>
+        <Matricula>
+            4356REW
+        </Matricula>
+        <Marca>
+            Corsa
+        </Marca>
+        <Modelo>
+            Sport
+        </Modelo>
+    </Coche>
+    <Coche>
+        <Matricula>
+            435354YU
+        </Matricula>
+        <Marca>
+            Opel
+        </Marca>
+        <Modelo>
+            Verlina
+        </Modelo>
+    </Coche>
+</coches>
+
+jluzon@delta15 ~/ST/practica02 $ cat coches.xml
+<?xml version="1.1" encoding="UTF-8"?>
+
+<coches>
+	<Coche>	<Matricula>
+			4356REW
+		</Matricula><Marca>
+			Corsa	</Marca>
+		<Modelo>	Sport
+		</Modelo>
+	</Coche><Coche>	<Matricula>
+			435354YU
+		</Matricula>		<Marca>
+			Opel
+		</Marca>		<Modelo>
+			Verlina
+		</Modelo>	</Coche>
+</coches>
+
+
